@@ -1,15 +1,9 @@
-FROM eclipse-temurin:17-jdk
+FROM maven:3.9.6-eclipse-temurin-17
 
 WORKDIR /app
 
-# Install Maven
-RUN apt-get update && apt-get install -y maven
-
-# Copy project files
 COPY . .
 
-# Build project
 RUN mvn clean package -DskipTests
 
-# Run Spring Boot
-CMD ["java", "-jar", "target/*jar"]
+CMD ["sh", "-c", "java -jar target/*.jar"]
