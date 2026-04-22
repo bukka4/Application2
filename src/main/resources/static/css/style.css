@@ -1,0 +1,1026 @@
+/* ════════════════════════════════════════════════════════
+   style.css
+   All styles for the Kannaya Birthday Surprise Website
+   Sections:
+   1. CSS Variables (colour palette)
+   2. Base / Reset
+   3. Page System
+   4. Shared Buttons
+   5. Shared Text Helpers
+   6. Page 0 — Secret Code Unlock
+   7. Page 1 — Kiss Animation
+   8. Page 2 — Birthday Hero
+   9. Page 3 — Kidnap Game
+   10. Page 4 — Love Letter
+   11. Page 5 — Flip Card Gallery
+   12. Page 6 — Couples Quiz
+   13. Page 6.5 — Bunny Final Unlock
+   14. Page 7 — Final Surprise
+   15. Shared Animations
+════════════════════════════════════════════════════════ */
+
+
+/* ══ 1. COLOUR PALETTE ══════════════════════════════════
+   Change these to change all colours at once!
+══════════════════════════════════════════════════════ */
+:root {
+    --rose:        #c9446a;   /* deep pink/rose */
+    --rose-light:  #e8728f;   /* lighter pink   */
+    --gold:        #d4a84b;   /* warm gold       */
+    --gold-light:  #f0c97a;   /* lighter gold    */
+    --ink:         #1c0d15;   /* very dark bg    */
+    --fg:          #f5ece8;   /* light text      */
+}
+
+
+/* ══ 2. BASE / RESET ════════════════════════════════════ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Jost', sans-serif;
+    background: linear-gradient(135deg, #2a0a1a 0%, #1c0d15 50%, #2a0a1a 100%);
+    color: var(--fg);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Floating petals canvas (stays behind everything) */
+#petal-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+/* ══ 3. PAGE SYSTEM ═════════════════════════════════════
+   Each "screen" is a .page div.
+   Only the one with class="page active" is shown.
+══════════════════════════════════════════════════════ */
+.page {
+    display: none;                 /* hidden by default */
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* JS adds "active" class to show a page */
+.page.active {
+    display: flex;
+}
+
+
+/* ══ 4. SHARED BUTTONS ══════════════════════════════════ */
+
+/* Pink/Rose button */
+.btn-rose {
+    background: linear-gradient(135deg, var(--rose), var(--rose-light));
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 36px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 24px rgba(201, 68, 106, 0.4);
+}
+.btn-rose:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(201, 68, 106, 0.6);
+}
+
+/* Gold button */
+.btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: #1c0d15;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 36px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(212, 168, 75, 0.5);
+}
+
+/* Transparent/outline button */
+.btn-ghost {
+    background: transparent;
+    color: rgba(245, 236, 232, 0.6);
+    border: 1px solid rgba(245, 236, 232, 0.25);
+    border-radius: 50px;
+    padding: 12px 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+}
+
+
+/* ══ 5. SHARED TEXT HELPERS ═════════════════════════════ */
+
+/* Cormorant Garamond serif font */
+.serif        { font-family: 'Cormorant Garamond', serif; }
+.serif-italic { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+/* Coloured text helpers */
+.text-gold { color: var(--gold); }
+.text-rose { color: var(--rose-light); }
+
+/* Small uppercase label above headings */
+.eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+}
+
+/* Thin horizontal divider line */
+.rule {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rose), transparent);
+    margin: 20px auto 36px;
+}
+
+/* Large page title */
+.title-lg {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 7vw, 5rem);
+    color: #fff;
+    line-height: 1.1;
+}
+
+
+/* ══ 6. PAGE 0 — SECRET CODE UNLOCK ════════════════════ */
+#page-unlock {
+    background: radial-gradient(ellipse 80% 60% at 50% 55%,
+        rgba(201, 68, 106, 0.2) 0%, transparent 70%);
+}
+
+/* The white-ish card in the centre */
+.unlock-card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    padding: 44px 36px;
+    max-width: 420px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+}
+
+/* Bunny characters */
+.bunnies {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+/* Bobbing animation on bunnies */
+.bunny-girl { animation: bunnyBob 1.8s ease-in-out infinite; }
+.bunny-boy  { animation: bunnyBob 1.8s ease-in-out 0.4s infinite; }
+
+@keyframes bunnyBob {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+}
+
+/* Card heading */
+.unlock-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+/* Card subtext */
+.unlock-sub {
+    font-size: 0.82rem;
+    color: rgba(245, 236, 232, 0.5);
+    margin-bottom: 28px;
+    line-height: 1.6;
+}
+.unlock-sub .highlight {
+    color: var(--rose-light);
+    font-style: italic;
+}
+
+/* The 4 individual code boxes */
+.code-inputs {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.code-box {
+    width: 58px;
+    height: 68px;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(212, 168, 75, 0.35);
+    border-radius: 10px;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.3s;
+    caret-color: var(--gold);
+}
+.code-box:focus {
+    border-color: var(--gold);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.code-hint {
+    font-size: 0.74rem;
+    color: rgba(245, 236, 232, 0.3);
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+/* Error message below inputs */
+.unlock-error {
+    color: var(--rose-light);
+    font-size: 0.78rem;
+    min-height: 20px;
+    margin-bottom: 10px;
+}
+
+
+/* ══ 7. PAGE 1 — KISS ANIMATION ════════════════════════ */
+#page-kiss {
+    background: radial-gradient(ellipse at 50% 40%,
+        rgba(255, 150, 180, 0.12) 0%, transparent 65%);
+}
+
+/* Container holding both cartoon characters */
+.kiss-scene {
+    position: relative;
+    width: 340px;
+    height: 280px;
+    margin: 0 auto 28px;
+}
+
+/* Boy stands still on right side */
+.char-boy-kiss {
+    position: absolute;
+    right: 50px;
+    bottom: 0;
+    width: 130px;
+}
+
+/* Girl starts off-screen left, slides in */
+.char-girl-kiss {
+    position: absolute;
+    left: 20px;
+    bottom: 0;
+    width: 110px;
+    transform: translateX(-240px);   /* starts hidden left */
+    transition: transform 1.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+/* JS adds this class to trigger the slide-in */
+.char-girl-kiss.walk-in {
+    transform: translateX(0);
+}
+
+/* Hearts that float up when they kiss */
+.cheek-hearts {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-25%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.5s 2s;
+}
+.cheek-hearts.show {
+    opacity: 1;
+}
+
+.ckh { font-size: 1.2rem; }
+.ckh:nth-child(1) { animation: heartFloat 1.5s 2.0s ease forwards; }
+.ckh:nth-child(2) { animation: heartFloat 1.5s 2.3s ease forwards; }
+.ckh:nth-child(3) { animation: heartFloat 1.5s 2.6s ease forwards; }
+
+@keyframes heartFloat {
+    0%   { opacity: 0; transform: translateY(0); }
+    30%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-55px); }
+}
+
+/* Text that fades in after kiss */
+.kiss-msg {
+    opacity: 0;
+    transition: opacity 0.8s 2.4s;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    color: #fff;
+    margin-bottom: 8px;
+}
+.kiss-msg.show { opacity: 1; }
+
+.kiss-sub {
+    opacity: 0;
+    transition: opacity 0.8s 2.8s;
+    margin-bottom: 6px;
+}
+.kiss-sub.show { opacity: 1; }
+
+.kiss-btn-wrap {
+    opacity: 0;
+    transition: opacity 0.8s 3.4s;
+    margin-top: 28px;
+}
+.kiss-btn-wrap.show { opacity: 1; }
+
+
+/* ══ 8. PAGE 2 — BIRTHDAY HERO ═════════════════════════ */
+#page-hero {
+    background: radial-gradient(ellipse 80% 55% at 50% 50%,
+        rgba(201, 68, 106, 0.18) 0%, transparent 68%);
+}
+
+/* Confetti container (fills the whole page background) */
+.confetti-wrap {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Individual confetti pieces (created by JS) */
+.conf {
+    position: absolute;
+    top: -10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    animation: confFall linear infinite;
+}
+
+@keyframes confFall {
+    to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+
+/* ══ 9. PAGE 3 — KIDNAP GAME ════════════════════════════ */
+#page-kidnap {
+    background: radial-gradient(ellipse at 35% 60%,
+        rgba(201, 68, 106, 0.14) 0%, transparent 60%);
+}
+
+.kidnap-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 48px 36px;
+    max-width: 460px;
+    width: 100%;
+    backdrop-filter: blur(8px);
+}
+
+.kidnap-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-style: italic;
+    line-height: 1.5;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.kidnap-hint {
+    font-size: 0.78rem;
+    color: rgba(245, 236, 232, 0.32);
+    font-style: italic;
+    margin-bottom: 32px;
+}
+
+/* Wrapper so "No" button can move freely */
+.kidnap-btns {
+    position: relative;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* YES button */
+.btn-yes {
+    background: linear-gradient(135deg, var(--rose), var(--rose-light));
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 13px 44px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 6px 22px rgba(201, 68, 106, 0.4);
+}
+.btn-yes:hover { transform: scale(1.06); }
+
+/* NO button (runs away on hover!) */
+.btn-no {
+    background: transparent;
+    color: rgba(245, 236, 232, 0.5);
+    border: 1px solid rgba(245, 236, 232, 0.2);
+    border-radius: 50px;
+    padding: 13px 44px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.15s;
+    position: absolute;
+    right: 0;
+}
+
+/* Message shown after clicking Yes */
+.kidnap-yes-msg {
+    display: none;
+    margin-top: 22px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--rose-light);
+}
+
+
+/* ══ 10. PAGE 4 — LOVE LETTER ═══════════════════════════ */
+#page-letter {
+    background: radial-gradient(ellipse at 50% 60%,
+        rgba(212, 168, 75, 0.08) 0%, transparent 65%);
+}
+
+.letter-wrapper {
+    max-width: 580px;
+    width: 100%;
+}
+
+/* The letter card itself */
+.letter-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 168, 75, 0.2);
+    border-radius: 16px;
+    padding: 36px 40px;
+    position: relative;
+}
+
+/* Coloured top bar on the card */
+.letter-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: 16px 16px 0 0;
+    background: linear-gradient(90deg, var(--rose), var(--gold), var(--rose-light));
+}
+
+.letter-salutation {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+/* Where the typewriter text appears */
+.letter-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.08rem;
+    line-height: 2;
+    color: rgba(245, 236, 232, 0.82);
+    text-align: left;
+    min-height: 140px;
+}
+
+/* Blinking cursor in the letter */
+.cursor-blink {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--rose-light);
+    vertical-align: middle;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+.letter-signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(245, 236, 232, 0.45);
+    text-align: right;
+    margin-top: 22px;
+    display: none;   /* shown by JS after typing finishes */
+}
+
+
+/* ══ 11. PAGE 5 — FLIP CARD GALLERY ════════════════════ */
+#page-gallery {
+    background: var(--ink);
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+/* Grid of photo cards */
+.flip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 820px;
+    width: 100%;
+}
+
+/* On small screens, show 2 columns */
+@media (max-width: 580px) {
+    .flip-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Featured card takes 2 columns */
+.flip-item.featured      { grid-column: span 2; }
+
+/* Each flip card item */
+.flip-item {
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+/* Flip on hover (desktop) */
+.flip-item:hover .flip-inner {
+    transform: rotateY(180deg);
+}
+
+/* Flip when JS adds "flipped" class (mobile tap) */
+.flip-item.flipped .flip-inner {
+    transform: rotateY(180deg);
+}
+
+/* The inner wrapper that rotates */
+.flip-inner {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;               /* square aspect ratio */
+    transform-style: preserve-3d;
+    transition: transform 0.7s ease;
+    border-radius: 12px;
+}
+
+/* Featured card is wider, not square */
+.flip-item.featured .flip-inner    { padding-top: 50%; }
+@media (max-width: 580px) {
+    .flip-item.featured .flip-inner { padding-top: 70%; }
+}
+
+/* Front face of card */
+.flip-front,
+.flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flip-front {
+    background: linear-gradient(135deg,
+        rgba(201, 68, 106, 0.18),
+        rgba(212, 168, 75, 0.1));
+    border: 1px solid rgba(245, 236, 232, 0.08);
+    flex-direction: column;
+    padding: 16px;
+    text-align: center;
+}
+
+/* Back face of card (shown when flipped) */
+.flip-back {
+    background: linear-gradient(135deg,
+        rgba(201, 68, 106, 0.28),
+        rgba(28, 13, 21, 0.92));
+    border: 1px solid rgba(212, 168, 75, 0.3);
+    transform: rotateY(180deg);     /* starts hidden */
+    flex-direction: column;
+    padding: 14px;
+    text-align: center;
+}
+
+/* If you add a real photo, it fills the front face */
+.flip-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+}
+
+/* Pulsing "Tap me" label */
+.tap-me {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(28, 13, 21, 0.78);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(212, 168, 75, 0.3);
+    border-radius: 50px;
+    padding: 5px 16px;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--gold-light);
+    white-space: nowrap;
+    z-index: 2;
+    animation: tapPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes tapPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+}
+
+/* Icon on front face */
+.ph-icon-big {
+    font-size: 2.8rem;
+    margin-bottom: 8px;
+}
+
+/* Label text on front face */
+.ph-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: rgba(245, 236, 232, 0.65);
+}
+
+/* Icon on back face */
+.flip-back-icon { font-size: 2rem; margin-bottom: 8px; }
+
+/* Message on back face */
+.flip-back-msg {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: rgba(245, 236, 232, 0.82);
+    line-height: 1.5;
+}
+
+
+/* ══ 12. PAGE 6 — COUPLES QUIZ ══════════════════════════ */
+#page-quiz {
+    background: radial-gradient(ellipse at 60% 40%,
+        rgba(201, 68, 106, 0.12) 0%, transparent 60%);
+}
+
+.quiz-box {
+    border: 1px solid rgba(201, 68, 106, 0.22);
+    border-radius: 16px;
+    padding: 36px;
+    background: rgba(201, 68, 106, 0.04);
+    max-width: 620px;
+    width: 100%;
+}
+
+/* Progress bar row */
+.progress-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.progress-track {
+    flex: 1;
+    height: 2px;
+    background: rgba(245, 236, 232, 0.09);
+    border-radius: 99px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose), var(--gold));
+    border-radius: 99px;
+    transition: width 0.5s;
+}
+
+.progress-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: rgba(245, 236, 232, 0.38);
+    white-space: nowrap;
+}
+
+/* Question text */
+.question-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+    line-height: 1.5;
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+/* Grid of answer buttons */
+.options-grid { display: grid; gap: 10px; }
+
+/* Each answer option */
+.option-btn {
+    padding: 13px 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(245, 236, 232, 0.1);
+    background: rgba(245, 236, 232, 0.03);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.87rem;
+    color: rgba(245, 236, 232, 0.78);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+}
+.option-btn:hover:not(:disabled) {
+    border-color: var(--rose-light);
+    background: rgba(201, 68, 106, 0.14);
+    transform: translateX(5px);
+}
+
+/* Correct / Wrong highlights */
+.option-btn.correct {
+    border-color: #6fcf97;
+    background: rgba(111, 207, 151, 0.1);
+    color: #a8edcc;
+}
+.option-btn.wrong {
+    border-color: #eb5757;
+    background: rgba(235, 87, 87, 0.1);
+    color: #ffb3b3;
+}
+
+/* Feedback message below options */
+.quiz-feedback {
+    margin-top: 14px;
+    padding: 13px 16px;
+    border-radius: 8px;
+    font-style: italic;
+    font-size: 0.83rem;
+    display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb {
+    border: 1px solid rgba(111, 207, 151, 0.28);
+    background: rgba(111, 207, 151, 0.06);
+    color: #a8edcc;
+}
+.quiz-feedback.wrong-fb {
+    border: 1px solid rgba(235, 87, 87, 0.28);
+    background: rgba(235, 87, 87, 0.06);
+    color: #ffb3b3;
+}
+
+/* Next button */
+.quiz-next { display: none; margin-top: 20px; }
+.quiz-next.show { display: block; }
+
+/* Results section */
+.quiz-result { display: none; text-align: center; }
+.quiz-result.show { display: block; }
+
+/* Score circle badge */
+.score-badge {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    margin: 20px auto;
+    background: linear-gradient(135deg, var(--rose), var(--gold));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 45px rgba(201, 68, 106, 0.5);
+}
+.score-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: #fff;
+}
+.score-total {
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.result-msg {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: rgba(245, 236, 232, 0.85);
+    margin-bottom: 6px;
+}
+.result-sub {
+    font-size: 0.8rem;
+    color: rgba(245, 236, 232, 0.4);
+    margin-bottom: 24px;
+}
+
+
+/* ══ 13. PAGE 6.5 — BUNNY FINAL UNLOCK ═════════════════ */
+#page-bunny-unlock {
+    background: radial-gradient(ellipse 80% 60% at 50% 50%,
+        rgba(201, 68, 106, 0.18) 0%, transparent 68%);
+}
+
+.bunny-unlock-card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    padding: 44px 36px;
+    max-width: 440px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+}
+
+.bunny-unlock-card .bunnies { margin-bottom: 22px; }
+
+.bunny-unlock-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.bunny-unlock-sub {
+    font-size: 0.82rem;
+    color: rgba(245, 236, 232, 0.48);
+    margin-bottom: 26px;
+    line-height: 1.6;
+}
+.bunny-unlock-sub .highlight {
+    color: var(--rose-light);
+    font-style: italic;
+}
+
+/* Text input for the love phrase */
+.phrase-input {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(212, 168, 75, 0.35);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    text-align: center;
+    margin-bottom: 12px;
+    transition: border-color 0.3s;
+}
+.phrase-input:focus { border-color: var(--gold); }
+.phrase-input::placeholder { color: rgba(245, 236, 232, 0.28); }
+
+.phrase-error {
+    color: var(--rose-light);
+    font-size: 0.76rem;
+    min-height: 18px;
+    margin-bottom: 8px;
+}
+
+
+/* ══ 14. PAGE 7 — FINAL SURPRISE ════════════════════════ */
+#page-final {
+    background: radial-gradient(ellipse 90% 70% at 50% 50%,
+        rgba(201, 68, 106, 0.2) 0%, transparent 65%);
+}
+
+/* Big spinning birthday cake icon */
+.final-icon {
+    font-size: 3.8rem;
+    animation: spinIn 1s ease;
+    margin-bottom: 10px;
+}
+
+@keyframes spinIn {
+    from { transform: rotate(-20deg) scale(0); opacity: 0; }
+    to   { transform: rotate(0) scale(1); opacity: 1; }
+}
+
+/* Grid of love message cards */
+.final-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    max-width: 760px;
+    width: 100%;
+    margin: 0 auto 28px;
+}
+
+.final-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(212, 168, 75, 0.15);
+    border-radius: 12px;
+    padding: 22px 18px;
+    transition: all 0.3s;
+}
+.final-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+}
+.final-card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    display: block;
+}
+.final-card-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(245, 236, 232, 0.72);
+    line-height: 1.6;
+}
+
+/* Code block (Java love letter) */
+.code-card {
+    background: #0c0a10;
+    border: 1px solid rgba(212, 168, 75, 0.2);
+    border-radius: 10px;
+    padding: 26px 30px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    line-height: 2;
+    overflow-x: auto;
+    text-align: left;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto 28px;
+}
+
+/* Syntax highlight colours */
+.code-keyword  { color: #e06c75; }
+.code-string   { color: #98c379; }
+.code-comment  { color: rgba(245, 236, 232, 0.28); font-style: italic; }
+.code-function { color: #61afef; }
+.code-type     { color: #e5c07b; }
+.code-value    { color: var(--rose-light); }
+
+/* Footer text */
+.final-footer {
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    color: rgba(245, 236, 232, 0.2);
+    margin-top: 10px;
+}
+
+
+/* ══ 15. SHARED ANIMATIONS ══════════════════════════════ */
+
+/* Fade up entrance */
+.fade-up {
+    animation: fadeUp 0.8s ease both;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
